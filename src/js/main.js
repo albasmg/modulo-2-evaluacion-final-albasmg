@@ -3,17 +3,16 @@
 const searchButton = document.querySelector('.js-searchButton');
 const resultsContainer = document.querySelector('.js-resultsContainer');
 
-const removeLastSearch = () => {
-  resultsContainer.innerHTML = '';
-};
+const removeLastSearch = () => (resultsContainer.innerHTML = '');
 
-const addListeners = () => {
+const addSeriesListeners = () => {
   const series = document.querySelectorAll('.main__seriesContainer');
   for (const li of series) {
     li.addEventListener('click', handleAddToFavoritesClick);
   }
 };
-let favoriteSeries = [];
+
+const favoriteSeries = [];
 
 const handleAddToFavoritesClick = (event) => {
   event.currentTarget.classList.toggle('selected');
@@ -30,18 +29,29 @@ const handleAddToFavoritesClick = (event) => {
   favoriteSeries.push(favoriteSerie);
   console.log(favoriteSeries);
 
-  addSerieToFavorites();
+  printFavorites();
 };
 
-const addSerieToFavorites = () => {
-  // const favoritesContainer = document.querySelector('.js-favoritesContainer');
-  // const favoriteSerieContainer = document.createElement('div');
-  // const favoriteSerieImage = document.createElement('img');
-  // const favoriteSerieName = document.createElement('p');
-  // favoritesContainer.appendChild(favoriteSerieContainer);
-  // favoriteSerieContainer.appendChild(favoriteSerieImage);
-  // favoriteSerieContainer.appendChild(favoriteSerieName);
-  // console.log(favoritesContainer);
+const printFavorites = () => {
+  const favorite = favoriteSeries[favoriteSeries.length - 1];
+
+  const favoritesContainer = document.querySelector('.js-favoritesContainer');
+  const favoriteSerieContainer = document.createElement('div');
+  const favoriteSerieImage = document.createElement('img');
+  const favoriteSerieNameElement = document.createElement('p');
+  const favoriteSerieName = document.createTextNode(favorite.name);
+
+  favoritesContainer.appendChild(favoriteSerieContainer);
+  favoriteSerieContainer.appendChild(favoriteSerieImage);
+  favoriteSerieContainer.appendChild(favoriteSerieNameElement);
+  favoriteSerieNameElement.appendChild(favoriteSerieName);
+
+  favoriteSerieImage.setAttribute(
+    'src',
+    !favorite.image
+      ? 'https://via.placeholder.com/210x295/ffffff/666666/? text=TV'
+      : favorite.image
+  );
 };
 
 const printResults = (results) => {
@@ -70,7 +80,7 @@ const printResults = (results) => {
     seriesContainer.classList.add('main__seriesContainer');
     serieNameElement.classList.add('main__seriesName');
   }
-  addListeners();
+  addSeriesListeners();
 };
 
 const handleSearchButtonClick = () => {

@@ -25,6 +25,10 @@
     background-color: $tertiary-color;
   }
 
+  &__favorites {
+    display: flex;
+  }
+
   &__results {
     margin: 30px;
     display: flex;
