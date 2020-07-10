@@ -26,7 +26,28 @@
   }
 
   &__favorites {
+    background-color: $light-color;
+    padding: 20px;
+    margin-top: 50px;
     display: flex;
+  }
+
+  &__favoriteSerieContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 250px;
+    margin: 10px;
+    background-color: $tertiary-color;
+  }
+
+  &__favoriteImage {
+    width: 150px;
+  }
+
+  &__favoriteName {
   }
 
   &__results {
@@ -58,5 +79,5 @@
 }
 
 .selected {
-  background-color: $secondary-color;
+  background-color: $tertiary-color;
 }

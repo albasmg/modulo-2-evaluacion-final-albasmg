@@ -52,6 +52,10 @@ const printFavorites = () => {
       ? 'https://via.placeholder.com/210x295/ffffff/666666/? text=TV'
       : favorite.image
   );
+
+  favoriteSerieContainer.classList.add('main__favoriteSerieContainer');
+  favoriteSerieImage.classList.add('main__favoriteImage');
+  favoriteSerieNameElement.classList.add('main__favoriteName');
 };
 
 const printResults = (results) => {
