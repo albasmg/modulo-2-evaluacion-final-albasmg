@@ -30,8 +30,29 @@
     display: flex;
     flex-wrap: wrap;
   }
+
+  &__seriesContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    margin: 20px;
+    padding: 20px;
+    background-color: $light-color;
+  }
+
+  &__seriesName {
+    text-align: center;
+    margin: 20px;
+    font-size: 18px;
+  }
 }
 
 .fas {
   color: #ffffff;
+}
+
+.selected {
+  background-color: $secondary-color;
 }
