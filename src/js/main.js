@@ -13,11 +13,13 @@ const handleSearchButtonClick = () => {
 };
 
 const printResults = (results) => {
+  const resultsContainer = document.querySelector('.js-resultsContainer');
+  resultsContainer.innerHTML = '';
+
   for (const result of results) {
     const serieName = result.show.name;
     const serieImage = result.show.image.medium;
 
-    const resultsContainer = document.querySelector('.js-resultsContainer');
     const seriesContainer = document.createElement('div');
     const serieImageElement = document.createElement('img');
     const serieNameElement = document.createElement('p');
