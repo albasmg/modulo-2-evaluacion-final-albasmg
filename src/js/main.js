@@ -1,21 +1,14 @@
 'use strict';
 
 const searchButton = document.querySelector('.js-searchButton');
+const resultsContainer = document.querySelector('.js-resultsContainer');
 
-const handleSearchButtonClick = () => {
-  const searcherValue = document.querySelector('.js-searchInput').value;
-
-  fetch(`http://api.tvmaze.com/search/shows?q=${searcherValue}`)
-    .then((response) => response.json())
-    .then((data) => {
-      printResults(data);
-    });
+const removeLastSearch = () => {
+  resultsContainer.innerHTML = '';
 };
 
 const printResults = (results) => {
-  const resultsContainer = document.querySelector('.js-resultsContainer');
-  resultsContainer.innerHTML = '';
-
+  removeLastSearch();
   for (const result of results) {
     const serieName = result.show.name;
     const serieImage = result.show.image;
@@ -36,6 +29,24 @@ const printResults = (results) => {
         ? 'https://via.placeholder.com/210x295/ffffff/666666/? text=TV'
         : serieImage.medium
     );
+  }
+};
+
+const handleSearchButtonClick = () => {
+  const searcherValue = document.querySelector('.js-searchInput').value;
+
+  if (!searcherValue) {
+    removeLastSearch();
+    const alertMessageElement = document.createElement('p');
+    const alertMessage = document.createTextNode('Escribe algo :)');
+    resultsContainer.appendChild(alertMessageElement);
+    alertMessageElement.appendChild(alertMessage);
+  } else {
+    fetch(`http://api.tvmaze.com/search/shows?q=${searcherValue}`)
+      .then((response) => response.json())
+      .then((data) => {
+        printResults(data);
+      });
   }
 };
 
