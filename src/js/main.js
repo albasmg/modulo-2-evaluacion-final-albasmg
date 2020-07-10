@@ -18,7 +18,7 @@ const printResults = (results) => {
 
   for (const result of results) {
     const serieName = result.show.name;
-    const serieImage = result.show.image.medium;
+    const serieImage = result.show.image;
 
     const seriesContainer = document.createElement('div');
     const serieImageElement = document.createElement('img');
@@ -30,7 +30,12 @@ const printResults = (results) => {
     seriesContainer.appendChild(serieNameElement);
     serieNameElement.appendChild(serieNameContent);
 
-    serieImageElement.setAttribute('src', `${serieImage}`);
+    serieImageElement.setAttribute(
+      'src',
+      !serieImage
+        ? 'https://via.placeholder.com/210x295/ffffff/666666/? text=TV'
+        : serieImage.medium
+    );
   }
 };
 
