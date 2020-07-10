@@ -24,6 +24,12 @@
     border-radius: 30px;
     background-color: $tertiary-color;
   }
+
+  &__results {
+    margin: 30px;
+    display: flex;
+    flex-wrap: wrap;
+  }
 }
 
 .fas {

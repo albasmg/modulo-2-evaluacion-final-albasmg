@@ -8,13 +8,28 @@ const handleSearchButtonClick = () => {
   fetch(`http://api.tvmaze.com/search/shows?q=${searcherValue}`)
     .then((response) => response.json())
     .then((data) => {
-      const results = data;
-
-      for (const result of results) {
-        console.log(result.show.name);
-        console.log(result.show.image.medium);
-      }
+      printResults(data);
     });
+};
+
+const printResults = (results) => {
+  for (const result of results) {
+    const serieName = result.show.name;
+    const serieImage = result.show.image.medium;
+
+    const resultsContainer = document.querySelector('.js-resultsContainer');
+    const seriesContainer = document.createElement('div');
+    const serieImageElement = document.createElement('img');
+    const serieNameElement = document.createElement('p');
+    const serieNameContent = document.createTextNode(`${serieName}`);
+
+    resultsContainer.appendChild(seriesContainer);
+    seriesContainer.appendChild(serieImageElement);
+    seriesContainer.appendChild(serieNameElement);
+    serieNameElement.appendChild(serieNameContent);
+
+    serieImageElement.setAttribute('src', `${serieImage}`);
+  }
 };
 
 searchButton.addEventListener('click', handleSearchButtonClick);
