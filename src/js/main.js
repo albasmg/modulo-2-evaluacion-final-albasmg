@@ -2,7 +2,8 @@
 
 const searchButton = document.querySelector('.js-searchButton');
 const resultsContainer = document.querySelector('.js-resultsContainer');
-const favoriteSeries = JSON.parse(localStorage.getItem('series')) || [];
+let favoriteSeries = JSON.parse(localStorage.getItem('series')) || [];
+let originalSeries = [];
 
 const removeLastSearch = () => (resultsContainer.innerHTML = '');
 
@@ -44,14 +45,18 @@ const printFavorites = (favoriteSerie) => {
 
   const favoritesContainer = document.querySelector('.js-favoritesContainer');
   const favoriteSerieContainer = document.createElement('div');
+  const removeFavoriteButton = document.createElement('button');
   const favoriteSerieImage = document.createElement('img');
   const favoriteSerieNameElement = document.createElement('p');
   const favoriteSerieName = document.createTextNode(favorite.name);
+  const removeFavoriteButtonName = document.createTextNode('borrar');
 
   favoritesContainer.appendChild(favoriteSerieContainer);
+  favoriteSerieContainer.appendChild(removeFavoriteButton);
   favoriteSerieContainer.appendChild(favoriteSerieImage);
   favoriteSerieContainer.appendChild(favoriteSerieNameElement);
   favoriteSerieNameElement.appendChild(favoriteSerieName);
+  removeFavoriteButton.appendChild(removeFavoriteButtonName);
 
   favoriteSerieImage.setAttribute(
     'src',
@@ -63,6 +68,27 @@ const printFavorites = (favoriteSerie) => {
   favoriteSerieContainer.classList.add('main__favoriteSerieContainer');
   favoriteSerieImage.classList.add('main__favoriteImage');
   favoriteSerieNameElement.classList.add('main__favoriteName');
+  removeFavoriteButton.classList.add('main__removeFavorite');
+
+  const handleRemoveFavoriteClick = () => {
+    const newFavoriteSeries = favoriteSeries.filter(
+      (favoriteSerie) => favoriteSerie.id !== favorite.id
+    );
+    localStorage.setItem('series', JSON.stringify(newFavoriteSeries));
+
+    favoritesContainer.innerHTML = '';
+
+    favoriteSeries = newFavoriteSeries;
+
+    removeLastSearch();
+    printResults(originalSeries);
+
+    for (const newFavoriteSerie of newFavoriteSeries) {
+      printFavorites(newFavoriteSerie);
+    }
+  };
+
+  removeFavoriteButton.addEventListener('click', handleRemoveFavoriteClick);
 };
 
 const printResults = (results) => {
@@ -115,6 +141,7 @@ const handleSearchButtonClick = () => {
     fetch(`http://api.tvmaze.com/search/shows?q=${searcherValue}`)
       .then((response) => response.json())
       .then((data) => {
+        originalSeries = data;
         printResults(data);
       });
   }
@@ -127,4 +154,5 @@ const printFavoriteSeriesOnStart = () => {
     printFavorites(favoriteSerie);
   }
 };
+
 printFavoriteSeriesOnStart();
