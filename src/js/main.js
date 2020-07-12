@@ -34,8 +34,8 @@ const handleAddToFavoritesClick = (event) => {
   printFavorites();
 };
 
-const printFavorites = () => {
-  const favorite = favoriteSeries[favoriteSeries.length - 1];
+const printFavorites = (favoriteSerie) => {
+  const favorite = favoriteSerie || favoriteSeries[favoriteSeries.length - 1];
 
   const favoritesContainer = document.querySelector('.js-favoritesContainer');
   const favoriteSerieContainer = document.createElement('div');
@@ -110,8 +110,9 @@ const handleSearchButtonClick = () => {
 searchButton.addEventListener('click', handleSearchButtonClick);
 
 const printFavoriteSeriesOnStart = () => {
-  for (const localStorageSeries of favoriteSeries) {
-    printFavorites();
+  for (const favoriteSerie of favoriteSeries) {
+    console.log(favoriteSerie);
+    printFavorites(favoriteSerie);
   }
 };
 printFavoriteSeriesOnStart();
