@@ -18,8 +18,8 @@ const handleAddToFavoritesClick = (event) => {
   const selectedSerieName = event.currentTarget.querySelector(
     '.main__seriesName'
   ).innerHTML;
-  const selectedSerieId = event.currentTarget.id;
-  console.log(selectedSerieId);
+  const selectedSerieId = parseInt(event.currentTarget.id);
+  console.log(typeof selectedSerieId);
 
   const favoriteSerie = {
     id: selectedSerieId,
@@ -69,6 +69,7 @@ const printResults = (results) => {
   removeLastSearch();
   for (const result of results) {
     const serieId = result.show.id;
+    console.log(serieId);
     const serieName = result.show.name;
     const serieImage = result.show.image;
 
@@ -89,6 +90,19 @@ const printResults = (results) => {
         ? 'https://via.placeholder.com/210x295/ffffff/666666/? text=TV'
         : serieImage.medium
     );
+
+    const isSerieInFavorites = favoriteSeries.find(
+      (favoriteSerie) => serieId === favoriteSerie.id
+    );
+    console.log(isSerieInFavorites);
+
+    console.log(favoriteSeries);
+
+    if (isSerieInFavorites) {
+      console.log('entro');
+
+      seriesContainer.classList.add('selected');
+    }
 
     seriesContainer.classList.add('main__seriesContainer');
     serieNameElement.classList.add('main__seriesName');
