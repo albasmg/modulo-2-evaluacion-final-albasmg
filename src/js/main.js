@@ -13,13 +13,15 @@ const addSeriesListeners = () => {
   }
 };
 
+const findSerieInFavorites = (serieId) =>
+  favoriteSeries.find((favoriteSerie) => serieId === favoriteSerie.id);
+
 const handleAddToFavoritesClick = (event) => {
   const selectedSerieImage = event.currentTarget.querySelector('img').src;
   const selectedSerieName = event.currentTarget.querySelector(
     '.main__seriesName'
   ).innerHTML;
   const selectedSerieId = parseInt(event.currentTarget.id);
-  console.log(typeof selectedSerieId);
 
   const favoriteSerie = {
     id: selectedSerieId,
@@ -27,9 +29,7 @@ const handleAddToFavoritesClick = (event) => {
     image: selectedSerieImage,
   };
 
-  const isSerieInFavorites = favoriteSeries.find(
-    (favoriteSerie) => selectedSerieId === favoriteSerie.id
-  );
+  const isSerieInFavorites = findSerieInFavorites(selectedSerieId);
 
   if (!isSerieInFavorites) {
     event.currentTarget.classList.toggle('selected');
@@ -69,7 +69,6 @@ const printResults = (results) => {
   removeLastSearch();
   for (const result of results) {
     const serieId = result.show.id;
-    console.log(serieId);
     const serieName = result.show.name;
     const serieImage = result.show.image;
 
@@ -91,21 +90,14 @@ const printResults = (results) => {
         : serieImage.medium
     );
 
-    const isSerieInFavorites = favoriteSeries.find(
-      (favoriteSerie) => serieId === favoriteSerie.id
-    );
-    console.log(isSerieInFavorites);
-
-    console.log(favoriteSeries);
-
-    if (isSerieInFavorites) {
-      console.log('entro');
-
-      seriesContainer.classList.add('selected');
-    }
-
     seriesContainer.classList.add('main__seriesContainer');
     serieNameElement.classList.add('main__seriesName');
+
+    const isSerieInFavorites = findSerieInFavorites(serieId);
+
+    if (isSerieInFavorites) {
+      seriesContainer.classList.add('selected');
+    }
   }
   addSeriesListeners();
 };
