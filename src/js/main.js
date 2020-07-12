@@ -2,6 +2,7 @@
 
 const searchButton = document.querySelector('.js-searchButton');
 const resultsContainer = document.querySelector('.js-resultsContainer');
+const favoriteSeries = JSON.parse(localStorage.getItem('series')) || [];
 
 const removeLastSearch = () => (resultsContainer.innerHTML = '');
 
@@ -12,26 +13,30 @@ const addSeriesListeners = () => {
   }
 };
 
-const favoriteSeries = JSON.parse(localStorage.getItem('series')) || [];
-console.log(favoriteSeries);
-
 const handleAddToFavoritesClick = (event) => {
-  event.currentTarget.classList.toggle('selected');
   const selectedSerieImage = event.currentTarget.querySelector('img').src;
   const selectedSerieName = event.currentTarget.querySelector(
     '.main__seriesName'
   ).innerHTML;
+  const selectedSerieId = event.currentTarget.id;
+  console.log(selectedSerieId);
 
   const favoriteSerie = {
+    id: selectedSerieId,
     name: selectedSerieName,
     image: selectedSerieImage,
   };
 
-  favoriteSeries.push(favoriteSerie);
+  const isSerieInFavorites = favoriteSeries.find(
+    (favoriteSerie) => selectedSerieId === favoriteSerie.id
+  );
 
-  localStorage.setItem('series', JSON.stringify(favoriteSeries));
-
-  printFavorites();
+  if (!isSerieInFavorites) {
+    event.currentTarget.classList.toggle('selected');
+    favoriteSeries.push(favoriteSerie);
+    localStorage.setItem('series', JSON.stringify(favoriteSeries));
+    printFavorites();
+  }
 };
 
 const printFavorites = (favoriteSerie) => {
@@ -63,6 +68,7 @@ const printFavorites = (favoriteSerie) => {
 const printResults = (results) => {
   removeLastSearch();
   for (const result of results) {
+    const serieId = result.show.id;
     const serieName = result.show.name;
     const serieImage = result.show.image;
 
@@ -76,6 +82,7 @@ const printResults = (results) => {
     seriesContainer.appendChild(serieNameElement);
     serieNameElement.appendChild(serieNameContent);
 
+    seriesContainer.setAttribute('id', serieId);
     serieImageElement.setAttribute(
       'src',
       !serieImage
@@ -111,7 +118,6 @@ searchButton.addEventListener('click', handleSearchButtonClick);
 
 const printFavoriteSeriesOnStart = () => {
   for (const favoriteSerie of favoriteSeries) {
-    console.log(favoriteSerie);
     printFavorites(favoriteSerie);
   }
 };
