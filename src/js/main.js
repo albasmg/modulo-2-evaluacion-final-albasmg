@@ -12,7 +12,8 @@ const addSeriesListeners = () => {
   }
 };
 
-const favoriteSeries = [];
+const favoriteSeries = JSON.parse(localStorage.getItem('series')) || [];
+console.log(favoriteSeries);
 
 const handleAddToFavoritesClick = (event) => {
   event.currentTarget.classList.toggle('selected');
@@ -27,7 +28,8 @@ const handleAddToFavoritesClick = (event) => {
   };
 
   favoriteSeries.push(favoriteSerie);
-  console.log(favoriteSeries);
+
+  localStorage.setItem('series', JSON.stringify(favoriteSeries));
 
   printFavorites();
 };
@@ -106,3 +108,10 @@ const handleSearchButtonClick = () => {
 };
 
 searchButton.addEventListener('click', handleSearchButtonClick);
+
+const printFavoriteSeriesOnStart = () => {
+  for (const localStorageSeries of favoriteSeries) {
+    printFavorites();
+  }
+};
+printFavoriteSeriesOnStart();
