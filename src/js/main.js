@@ -94,7 +94,6 @@ const printFavorites = (favoriteSerie) => {
   );
 
   const handleRemoveAllFavoritesClick = () => {
-    // console.log('hola');
     favoriteSeries = [];
     localStorage.removeItem('series');
     favoritesContainer.innerHTML = '';
