@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Adalab Web Starter Kit</title>
+    <title>Buscador de series</title>
     <script
       src="https://kit.fontawesome.com/d000050c19.js"
       crossorigin="anonymous"
@@ -18,14 +18,22 @@
 
   <body>
     <main class="main">
-      <h1 class="main__heading">Buscador de series</h1>
-      <div class="searcher">
-        <input type="text" class="main__input js-searchInput" />
-        <button class="main__button js-searchButton">
-          <i class="fas fa-search"></i>
-        </button>
+      <div class="main__title">
+        <h1 class="main__heading">Buscador de series</h1>
+        <div class="searcher">
+          <input type="text" class="searcher__input js-searchInput" />
+          <button class="searcher__button js-searchButton">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
       </div>
-      <div class="main__results js-resultsContainer"></div>
+      <div class="results">
+        <div class="favorites">
+          <h2 class="favorites__heading">Mis series favoritas</h2>
+          <div class="js-favoritesContainer favorites__mainContainer"></div>
+        </div>
+        <div class="series js-resultsContainer"></div>
+      </div>
     </main>
 
     <script src="./assets/js/main.js"></script>
