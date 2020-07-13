@@ -31,6 +31,8 @@ const handleAddToFavoritesClick = (event) => {
 
   const isSerieInFavorites = findSerieInFavorites(selectedSerieId);
 
+  console.log(selectedSerieName);
+
   if (!isSerieInFavorites) {
     event.currentTarget.classList.toggle('selected');
     favoriteSeries.push(favoriteSerie);
