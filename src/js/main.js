@@ -61,9 +61,7 @@ const printFavorites = (favoriteSerie) => {
 
   favoriteSerieImage.setAttribute(
     'src',
-    !favorite.image
-      ? 'https://via.placeholder.com/210x295/ffffff/666666/? text=TV'
-      : favorite.image
+    !favorite.image ? 'assets/images/no-image.png' : favorite.image
   );
 
   removeFavoriteButton.setAttribute('class', 'far fa-trash-alt');
@@ -91,7 +89,23 @@ const printFavorites = (favoriteSerie) => {
     }
   };
 
+  const removeAllFavoritesButton = document.querySelector(
+    '.js-removeAllFavoritesButton'
+  );
+
+  const handleRemoveAllFavoritesClick = () => {
+    // console.log('hola');
+    favoriteSeries = [];
+    localStorage.removeItem('series');
+    favoritesContainer.innerHTML = '';
+    printResults(originalSeries);
+  };
+
   removeFavoriteButton.addEventListener('click', handleRemoveFavoriteClick);
+  removeAllFavoritesButton.addEventListener(
+    'click',
+    handleRemoveAllFavoritesClick
+  );
 };
 
 const printResults = (results) => {
@@ -114,9 +128,7 @@ const printResults = (results) => {
     seriesContainer.setAttribute('id', serieId);
     serieImageElement.setAttribute(
       'src',
-      !serieImage
-        ? 'https://via.placeholder.com/210x295/ffffff/666666/? text=TV'
-        : serieImage.medium
+      !serieImage ? 'assets/images/no-image.png' : serieImage.medium
     );
 
     seriesContainer.classList.add('series__container');
