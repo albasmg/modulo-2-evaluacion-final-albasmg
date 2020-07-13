@@ -1,11 +1,14 @@
 <main class="main">
   <h1 class="main__heading">Buscador de series</h1>
   <div class="searcher">
-    <input type="text" class="main__input js-searchInput" />
-    <button class="main__button js-searchButton">
+    <input type="text" class="searcher__input js-searchInput" />
+    <button class="searcher__button js-searchButton">
       <i class="fas fa-search"></i>
     </button>
   </div>
-  <div class="main__favorites js-favoritesContainer"></div>
-  <div class="main__results js-resultsContainer"></div>
+  <div class="favorites">
+    <h2 class="favorites__heading">Mis favoritos</h2>
+    <div class="js-favoritesContainer favorites__mainContainer"></div>
+  </div>
+  <div class="series js-resultsContainer"></div>
 </main>

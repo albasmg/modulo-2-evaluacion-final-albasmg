@@ -8,7 +8,7 @@ let originalSeries = [];
 const removeLastSearch = () => (resultsContainer.innerHTML = '');
 
 const addSeriesListeners = () => {
-  const series = document.querySelectorAll('.main__seriesContainer');
+  const series = document.querySelectorAll('.series__container');
   for (const li of series) {
     li.addEventListener('click', handleAddToFavoritesClick);
   }
@@ -19,9 +19,8 @@ const findSerieInFavorites = (serieId) =>
 
 const handleAddToFavoritesClick = (event) => {
   const selectedSerieImage = event.currentTarget.querySelector('img').src;
-  const selectedSerieName = event.currentTarget.querySelector(
-    '.main__seriesName'
-  ).innerHTML;
+  const selectedSerieName = event.currentTarget.querySelector('.series__name')
+    .innerHTML;
   const selectedSerieId = parseInt(event.currentTarget.id);
 
   const favoriteSerie = {
@@ -49,14 +48,14 @@ const printFavorites = (favoriteSerie) => {
   const favoriteSerieImage = document.createElement('img');
   const favoriteSerieNameElement = document.createElement('p');
   const favoriteSerieName = document.createTextNode(favorite.name);
-  const removeFavoriteButtonName = document.createTextNode('borrar');
+  const removeFavoriteButtonIcon = document.createElement('i');
 
   favoritesContainer.appendChild(favoriteSerieContainer);
   favoriteSerieContainer.appendChild(removeFavoriteButton);
   favoriteSerieContainer.appendChild(favoriteSerieImage);
   favoriteSerieContainer.appendChild(favoriteSerieNameElement);
   favoriteSerieNameElement.appendChild(favoriteSerieName);
-  removeFavoriteButton.appendChild(removeFavoriteButtonName);
+  removeFavoriteButton.appendChild(removeFavoriteButtonIcon);
 
   favoriteSerieImage.setAttribute(
     'src',
@@ -65,10 +64,12 @@ const printFavorites = (favoriteSerie) => {
       : favorite.image
   );
 
-  favoriteSerieContainer.classList.add('main__favoriteSerieContainer');
-  favoriteSerieImage.classList.add('main__favoriteImage');
-  favoriteSerieNameElement.classList.add('main__favoriteName');
-  removeFavoriteButton.classList.add('main__removeFavorite');
+  removeFavoriteButton.setAttribute('class', 'far fa-trash-alt');
+
+  favoriteSerieContainer.classList.add('favorites__container');
+  favoriteSerieImage.classList.add('favorites__image');
+  favoriteSerieNameElement.classList.add('favorites__name');
+  removeFavoriteButton.classList.add('favorites__removeButton');
 
   const handleRemoveFavoriteClick = () => {
     const newFavoriteSeries = favoriteSeries.filter(
@@ -101,7 +102,7 @@ const printResults = (results) => {
     const seriesContainer = document.createElement('li');
     const serieImageElement = document.createElement('img');
     const serieNameElement = document.createElement('p');
-    const serieNameContent = document.createTextNode(`${serieName}`);
+    const serieNameContent = document.createTextNode(serieName);
 
     resultsContainer.appendChild(seriesContainer);
     seriesContainer.appendChild(serieImageElement);
@@ -116,13 +117,14 @@ const printResults = (results) => {
         : serieImage.medium
     );
 
-    seriesContainer.classList.add('main__seriesContainer');
-    serieNameElement.classList.add('main__seriesName');
+    seriesContainer.classList.add('series__container');
+    serieNameElement.classList.add('series__name');
 
     const isSerieInFavorites = findSerieInFavorites(serieId);
 
     if (isSerieInFavorites) {
       seriesContainer.classList.add('selected');
+      serieNameElement.classList.add('selected-name');
     }
   }
   addSeriesListeners();
