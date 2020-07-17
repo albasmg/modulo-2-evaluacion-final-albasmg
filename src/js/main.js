@@ -2,6 +2,7 @@
 
 const searchButton = document.querySelector('.js-searchButton');
 const resultsContainer = document.querySelector('.js-resultsContainer');
+const favoritesContainer = document.querySelector('.js-favoritesContainer');
 let favoriteSeries = JSON.parse(localStorage.getItem('series')) || [];
 let originalSeries = [];
 
@@ -16,6 +17,9 @@ const addSeriesListeners = () => {
 
 const findSerieInFavorites = (serieId) =>
   favoriteSeries.find((favoriteSerie) => serieId === favoriteSerie.id);
+
+const removeSerieInFavorites = (serieId) =>
+  favoriteSeries.filter((favoriteSerie) => serieId !== favoriteSerie.id);
 
 const handleAddToFavoritesClick = (event) => {
   const selectedSerieImage = event.currentTarget.querySelector('img').src;
@@ -38,13 +42,17 @@ const handleAddToFavoritesClick = (event) => {
     favoriteSeries.push(favoriteSerie);
     localStorage.setItem('series', JSON.stringify(favoriteSeries));
     printFavorites();
+  } else {
+    event.currentTarget.classList.toggle('selected');
+    favoriteSeries = removeSerieInFavorites(selectedSerieId);
+    localStorage.setItem('series', JSON.stringify(favoriteSeries));
+    printFavorites(favoriteSeries);
   }
 };
 
 const printFavorites = (favoriteSerie) => {
   const favorite = favoriteSerie || favoriteSeries[favoriteSeries.length - 1];
 
-  const favoritesContainer = document.querySelector('.js-favoritesContainer');
   const favoriteSerieContainer = document.createElement('div');
   const removeFavoriteButton = document.createElement('button');
   const favoriteSerieImage = document.createElement('img');
@@ -89,23 +97,24 @@ const printFavorites = (favoriteSerie) => {
     }
   };
 
-  const removeAllFavoritesButton = document.querySelector(
-    '.js-removeAllFavoritesButton'
-  );
-
-  const handleRemoveAllFavoritesClick = () => {
-    favoriteSeries = [];
-    localStorage.removeItem('series');
-    favoritesContainer.innerHTML = '';
-    printResults(originalSeries);
-  };
-
   removeFavoriteButton.addEventListener('click', handleRemoveFavoriteClick);
-  removeAllFavoritesButton.addEventListener(
-    'click',
-    handleRemoveAllFavoritesClick
-  );
 };
+
+const removeAllFavoritesButton = document.querySelector(
+  '.js-removeAllFavoritesButton'
+);
+
+const handleRemoveAllFavoritesClick = () => {
+  favoriteSeries = [];
+  localStorage.removeItem('series');
+  favoritesContainer.innerHTML = '';
+  printResults(originalSeries);
+};
+
+removeAllFavoritesButton.addEventListener(
+  'click',
+  handleRemoveAllFavoritesClick
+);
 
 const printResults = (results) => {
   removeLastSearch();
@@ -132,6 +141,7 @@ const printResults = (results) => {
 
     seriesContainer.classList.add('series__container');
     serieNameElement.classList.add('series__name');
+    serieImageElement.classList.add('series__image');
 
     const isSerieInFavorites = findSerieInFavorites(serieId);
 
@@ -163,6 +173,14 @@ const handleSearchButtonClick = () => {
 };
 
 searchButton.addEventListener('click', handleSearchButtonClick);
+
+const favoritesToggle = document.querySelector('.favorites__headingContainer');
+
+const handleFavoritesToggleClick = () => {
+  favoritesContainer.classList.toggle('hidden');
+};
+
+favoritesToggle.addEventListener('click', handleFavoritesToggleClick);
 
 const printFavoriteSeriesOnStart = () => {
   for (const favoriteSerie of favoriteSeries) {
