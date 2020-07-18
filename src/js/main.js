@@ -35,22 +35,29 @@ const handleAddToFavoritesClick = (event) => {
 
   const isSerieInFavorites = findSerieInFavorites(selectedSerieId);
 
-  console.log(selectedSerieName);
-
   if (!isSerieInFavorites) {
     event.currentTarget.classList.toggle('selected');
     favoriteSeries.push(favoriteSerie);
     localStorage.setItem('series', JSON.stringify(favoriteSeries));
-    printFavorites();
+
+    const heartIcon = document.querySelector('.fa-heart');
+    heartIcon.classList.add('animated-heart');
+    setTimeout(() => heartIcon.classList.remove('animated-heart'), 2000);
+
+    printFavorite();
   } else {
     event.currentTarget.classList.toggle('selected');
     favoriteSeries = removeSerieInFavorites(selectedSerieId);
     localStorage.setItem('series', JSON.stringify(favoriteSeries));
-    printFavorites(favoriteSeries);
+    favoritesContainer.innerHTML = '';
+
+    for (const favoriteSerie of favoriteSeries) {
+      printFavorite(favoriteSerie);
+    }
   }
 };
 
-const printFavorites = (favoriteSerie) => {
+const printFavorite = (favoriteSerie) => {
   const favorite = favoriteSerie || favoriteSeries[favoriteSeries.length - 1];
 
   const favoriteSerieContainer = document.createElement('div');
@@ -93,7 +100,7 @@ const printFavorites = (favoriteSerie) => {
     printResults(originalSeries);
 
     for (const newFavoriteSerie of newFavoriteSeries) {
-      printFavorites(newFavoriteSerie);
+      printFavorite(newFavoriteSerie);
     }
   };
 
@@ -172,19 +179,29 @@ const handleSearchButtonClick = () => {
   }
 };
 
+const searcher = document.querySelector('.js-searchInput');
+
+searcher.addEventListener('keyup', function pressEnterToSearch(event) {
+  if (event.keyCode === 13) {
+    handleSearchButtonClick();
+  }
+});
+
 searchButton.addEventListener('click', handleSearchButtonClick);
 
 const favoritesToggle = document.querySelector('.favorites__headingContainer');
 
 const handleFavoritesToggleClick = () => {
+  const favoritesArrow = document.querySelector('.fa-chevron-down');
   favoritesContainer.classList.toggle('hidden');
+  favoritesArrow.classList.toggle('rotate-arrow');
 };
 
 favoritesToggle.addEventListener('click', handleFavoritesToggleClick);
 
 const printFavoriteSeriesOnStart = () => {
   for (const favoriteSerie of favoriteSeries) {
-    printFavorites(favoriteSerie);
+    printFavorite(favoriteSerie);
   }
 };
 
