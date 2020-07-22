@@ -3,6 +3,8 @@
 const searchButton = document.querySelector('.js-searchButton');
 const resultsContainer = document.querySelector('.js-resultsContainer');
 const favoritesContainer = document.querySelector('.js-favoritesContainer');
+const favoritesToggleContainer = document.querySelector('.js-favoritesToggle');
+const noFavoritesMsg = document.querySelector('.js-noFavoritesMsg');
 let favoriteSeries = JSON.parse(localStorage.getItem('series')) || [];
 let originalSeries = [];
 
@@ -56,7 +58,7 @@ const handleAddToFavoritesClick = (event) => {
     }
   }
 
-  checkRemoveAllFavoritesState();
+  showRemoveAllFavoritesButton();
 };
 
 const printFavorite = (favoriteSerie) => {
@@ -98,6 +100,11 @@ const printFavorite = (favoriteSerie) => {
 
     favoriteSeries = newFavoriteSeries;
 
+    if (!favoriteSeries.length) {
+      removeAllFavoritesButton.classList.add('hidden');
+      noFavoritesMsg.classList.remove('hidden');
+    }
+
     removeLastSearch();
     printResults(originalSeries);
 
@@ -117,6 +124,8 @@ const handleRemoveAllFavoritesClick = () => {
   favoriteSeries = [];
   localStorage.removeItem('series');
   favoritesContainer.innerHTML = '';
+  removeAllFavoritesButton.classList.toggle('hidden');
+  noFavoritesMsg.classList.remove('hidden');
   printResults(originalSeries);
 };
 
@@ -164,18 +173,31 @@ const printResults = (results) => {
 
 const handleSearchButtonClick = () => {
   const searcherValue = document.querySelector('.js-searchInput').value;
+  const noResultsFoundElement = document.querySelector('.js-noResultsFoundMsg');
 
   if (!searcherValue) {
     removeLastSearch();
+    noResultsFoundElement.classList.add('hidden');
+
     const alertMessageElement = document.createElement('p');
-    const alertMessage = document.createTextNode('Escribe algo :)');
+    const alertMessage = document.createTextNode(
+      'Para que pueda ayudarte a buscar tus series favoritas, tienes que escribir algo en el buscador 💁🏻‍♀️'
+    );
     resultsContainer.appendChild(alertMessageElement);
     alertMessageElement.appendChild(alertMessage);
+
+    alertMessageElement.classList.add('error-message');
   } else {
     fetch(`http://api.tvmaze.com/search/shows?q=${searcherValue}`)
       .then((response) => response.json())
       .then((data) => {
         originalSeries = data;
+        if (!data.length) {
+          console.log('entro');
+          noResultsFoundElement.classList.remove('hidden');
+        } else {
+          noResultsFoundElement.classList.add('hidden');
+        }
         printResults(data);
       });
   }
@@ -195,15 +217,16 @@ const favoritesToggle = document.querySelector('.favorites__headingContainer');
 
 const handleFavoritesToggleClick = () => {
   const favoritesArrow = document.querySelector('.fa-chevron-down');
-  favoritesContainer.classList.toggle('hidden');
+  favoritesToggleContainer.classList.toggle('hidden');
   favoritesArrow.classList.toggle('rotate-arrow');
 };
 
 favoritesToggle.addEventListener('click', handleFavoritesToggleClick);
 
-const checkRemoveAllFavoritesState = () => {
+const showRemoveAllFavoritesButton = () => {
   if (favoriteSeries.length) {
-    removeAllFavoritesButton.classList.toggle('hidden');
+    removeAllFavoritesButton.classList.remove('hidden');
+    noFavoritesMsg.classList.add('hidden');
   }
 };
 
@@ -214,4 +237,4 @@ const printFavoriteSeriesOnStart = () => {
 };
 
 printFavoriteSeriesOnStart();
-checkRemoveAllFavoritesState();
+showRemoveAllFavoritesButton();

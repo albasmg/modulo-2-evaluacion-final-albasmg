@@ -189,6 +189,14 @@ body {
   animation-duration: 2s;
 }
 
+.error-message {
+  width: 70%;
+  margin: auto;
+  text-align: center;
+  color: $secondary-color;
+  font-size: 20px;
+}
+
 @keyframes red-heart {
   0%,
   100% {

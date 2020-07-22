@@ -15,10 +15,11 @@
         <h2 class="favorites__heading">Mis series favoritas</h2>
         <i class="fas fa-heart"></i>
       </div>
-      <div class="js-favoritesToggle">
-        <div
-          class="js-favoritesContainer favorites__mainContainer hidden"
-        ></div>
+      <div class="js-favoritesToggle hidden">
+        <div class="js-favoritesContainer favorites__mainContainer"></div>
+        <p class="js-noFavoritesMsg favorites__noFavoritesMsg">
+          Aún no tienes ninguna serie en favoritos. ¡Prueba a buscar! 🍿
+        </p>
         <button class="js-removeAllFavoritesButton favorites__removeAll hidden">
           Borrar todas
         </button>
@@ -26,6 +27,10 @@
     </div>
     <div>
       <div class="series js-resultsContainer"></div>
+      <p class="js-noResultsFoundMsg hidden error-message">
+        ¡Uy! Parece que no he encontrado lo que buscas. 🤯 Prueba con otra serie
+        🍿
+      </p>
     </div>
   </div>
 </main>
