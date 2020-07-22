@@ -28,6 +28,10 @@ body {
     background-color: $main-color;
     color: $secondary-color;
     outline: none;
+
+    @media all and (max-width: 423px) {
+      width: 230px;
+    }
   }
 
   &__button {
@@ -163,7 +167,7 @@ body {
 }
 
 .far {
-  color: #ffffff;
+  color: $secondary-color;
 }
 
 .selected {
