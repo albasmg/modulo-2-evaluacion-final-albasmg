@@ -1,5 +1,5 @@
 <main class="main">
-  <div class="main__title">
+  <div class="search-container main__title">
     <h1 class="main__heading">Buscador de series</h1>
     <div class="searcher">
       <input type="text" class="searcher__input js-searchInput" />
@@ -15,10 +15,14 @@
         <h2 class="favorites__heading">Mis series favoritas</h2>
         <i class="fas fa-heart"></i>
       </div>
-      <button class="js-removeAllFavoritesButton favorites__removeAll">
-        Borrar todas
-      </button>
-      <div class="js-favoritesContainer favorites__mainContainer hidden"></div>
+      <div class="js-favoritesToggle">
+        <div
+          class="js-favoritesContainer favorites__mainContainer hidden"
+        ></div>
+        <button class="js-removeAllFavoritesButton favorites__removeAll hidden">
+          Borrar todas
+        </button>
+      </div>
     </div>
     <div>
       <div class="series js-resultsContainer"></div>

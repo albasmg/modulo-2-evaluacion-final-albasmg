@@ -55,6 +55,8 @@ const handleAddToFavoritesClick = (event) => {
       printFavorite(favoriteSerie);
     }
   }
+
+  checkRemoveAllFavoritesState();
 };
 
 const printFavorite = (favoriteSerie) => {
@@ -199,6 +201,12 @@ const handleFavoritesToggleClick = () => {
 
 favoritesToggle.addEventListener('click', handleFavoritesToggleClick);
 
+const checkRemoveAllFavoritesState = () => {
+  if (favoriteSeries.length) {
+    removeAllFavoritesButton.classList.toggle('hidden');
+  }
+};
+
 const printFavoriteSeriesOnStart = () => {
   for (const favoriteSerie of favoriteSeries) {
     printFavorite(favoriteSerie);
@@ -206,3 +214,4 @@ const printFavoriteSeriesOnStart = () => {
 };
 
 printFavoriteSeriesOnStart();
+checkRemoveAllFavoritesState();
