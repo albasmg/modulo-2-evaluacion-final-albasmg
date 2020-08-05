@@ -188,7 +188,7 @@ const handleSearchButtonClick = () => {
 
     alertMessageElement.classList.add('error-message');
   } else {
-    fetch(`http://api.tvmaze.com/search/shows?q=${searcherValue}`)
+    fetch(`https://api.tvmaze.com/search/shows?q=${searcherValue}`)
       .then((response) => response.json())
       .then((data) => {
         originalSeries = data;
